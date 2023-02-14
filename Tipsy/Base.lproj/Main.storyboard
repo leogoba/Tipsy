@@ -181,6 +181,7 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="calculatePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MAE-7X-fQh"/>
+                                    <segue destination="Dnf-m2-FPm" kind="presentation" modalPresentationStyle="fullScreen" id="BBb-hf-NHY"/>
                                 </connections>
                             </button>
                         </subviews>

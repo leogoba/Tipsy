@@ -12,6 +12,7 @@ class CalculatorViewController: UIViewController {
     
     var tip = 0.5
     var numberOfPerson = 0
+    var result = ""
 
     @IBOutlet weak var billTextField: UITextField!
     @IBOutlet weak var zeroPctButton: UIButton!
@@ -26,14 +27,13 @@ class CalculatorViewController: UIViewController {
     @IBAction func tipChanged(_ sender: UIButton) {
         updateUI()
         sender.isSelected = true
+        view.endEditing(true)
         
         let userChoice = sender.currentTitle!
         let buttonTitleMinusPercentSign =  String(userChoice.dropLast())
         let buttonTitleAsANumber = Double(buttonTitleMinusPercentSign)!
         
         tip = buttonTitleAsANumber / 100
-        
-        view.endEditing(true)
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
@@ -43,16 +43,21 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func calculatePressed(_ sender: UIButton) {
-        let NumBill = Double(billTextField.text ?? "0") ?? 0
-        let result = NumBill * (1 + tip) / Double(numberOfPerson)
-        print(String(format: "%.2f", result))
-        
+        let totalBillTF = Double(billTextField.text ?? "0") ?? 0
+        let finalResult = totalBillTF * (1 + Double(tip)) / Double(numberOfPerson)
+        result = String(format: "%.2f", finalResult)
     }
     
     func updateUI() {
         zeroPctButton.isSelected = false
         tenPctButton.isSelected = false
         twentyPctButton.isSelected = false
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let resultsVC = segue.destination as? ResultsViewController else { return }
+        resultsVC.tip = tip * 100
+        resultsVC.numberOfPerson = numberOfPerson
+        resultsVC.result = result
     }
 }
 
